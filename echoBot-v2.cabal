@@ -24,14 +24,20 @@ source-repository head
   location: https://github.com/githubuser/echoBot-v2
 
 library
-  exposed-modules:
-      Lib
   other-modules:
       Paths_echoBot_v2
   hs-source-dirs:
       src
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
+    , bytestring
+    , configurator
+    , containers
+    , http-conduit
+    , text
+    , utf8-string
+    , vector
   default-language: Haskell2010
 
 executable echoBot-v2-exe
@@ -42,8 +48,16 @@ executable echoBot-v2-exe
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
+    , bytestring
+    , configurator
+    , containers
     , echoBot-v2
+    , http-conduit
+    , text
+    , utf8-string
+    , vector
   default-language: Haskell2010
 
 test-suite echoBot-v2-test
@@ -55,6 +69,14 @@ test-suite echoBot-v2-test
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
+    , bytestring
+    , configurator
+    , containers
     , echoBot-v2
+    , http-conduit
+    , text
+    , utf8-string
+    , vector
   default-language: Haskell2010
