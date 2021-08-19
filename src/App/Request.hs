@@ -10,20 +10,35 @@ import qualified Data.Vector as V
 import Control.Monad (mzero)
 import Data.Aeson
 
+import App.Config
 
-data InitReqText = InitRT { updateId :: Int 
-                          , justId :: Int 
-                          , message :: T.Text 
-                          } deriving (Show, Eq)
 
-data InitReqButton = InitRB  { updateIdB :: Int
-                             , justIdB :: Int
-                             , countB :: T.Text
-                             } deriving (Show, Eq)
+data ReqText = ReqText { updateIdT :: Int 
+                       , justIdT :: Int 
+                       , messageT :: T.Text 
+                       } deriving (Show, Eq)
 
-data InitReqOther = InitRO  { updateIdO :: Int
-                            , justIdO :: Int
-                            , fileId :: T.Text
+data ReqButton = ReqButton  { updateIdB :: Int
+                            , justIdB :: Int
+                            , countB :: T.Text
                             } deriving (Show, Eq)
 
-newtype BoolReq = BoolReq () deriving (Show, Eq) 
+data ReqOther = ReqOther  { updateIdO :: Int
+                          , justIdO :: Int
+                          , fileIdO :: T.Text
+                          } deriving (Show, Eq)
+
+newtype ReqBool = ReqBool () deriving (Show, Eq) 
+
+
+makeReqUpdates :: Token -> String
+makeReqUpdates (Token token) = "https://api.telegram.org/bot" ++ token ++ "/getUpdates" ++ "?timeout=30"
+
+getUpdates :: Token -> IO B.ByteString 
+getUpdates token = do
+  resp <- N.httpBS $ N.parseRequest_ $ makeReqUpdates token 
+  return $ N.getResponseBody resp 
+
+
+
+
