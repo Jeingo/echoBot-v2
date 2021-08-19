@@ -24,6 +24,9 @@ source-repository head
   location: https://github.com/githubuser/echoBot-v2
 
 library
+  exposed-modules:
+      App.Config
+      App.Request
   other-modules:
       Paths_echoBot_v2
   hs-source-dirs:
