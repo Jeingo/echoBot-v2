@@ -7,7 +7,7 @@ import qualified Data.ByteString.UTF8 as B8
 import qualified Data.ByteString as B
 import qualified Data.Text as T
 import qualified Data.Vector as V
-import Control.Monad (mzero)
+import Control.Monad 
 import Data.Aeson
 
 import App.Config
@@ -131,15 +131,36 @@ sendHelpText helpT chatId (Token token) = do
   N.httpNoBody $ N.parseRequest_ $ req
   return ()
 
-type Counter = Int
-type Date = String
+sendKeyboard :: B.ByteString -> ChatId -> Token -> IO () 
+sendKeyboard keyB chId (Token token) = do
+  let chatId = B8.fromString chId 
+  request' <- N.parseRequest $ "POST " ++ urlApiTelegram ++ token ++ "/sendMessage"
+  let req = N.setRequestQueryString [("chat_id", Just $ chatId),
+                                     ("text", Just "Choose how many repeating:"), 
+                                     ("reply_markup", Just keyB)] $ request'
+  N.httpNoBody req
+  return () 
 
-{--
-sendEcho :: Counter -> Date -> Token -> ChatId -> IO ()
-sendEcho counter date (Token token) = do
-  let dateAndCount = replicate counter date
-  let req = sendDate token chatId date
---}
+type Counter = Int
+
+class Sender a where
+  makeSendReq :: Token -> a -> String
+
+instance Sender ReqText where
+  makeSendReq (Token token) resp = urlApiTelegram ++ token ++ "/sendMessage" ++ "?chat_id=" ++ chId ++ "&text=" ++ textResp
+    where chId = show $ justIdT resp
+          textResp = T.unpack $ messageT resp
+
+instance Sender ReqOther where
+  makeSendReq (Token token) resp = urlApiTelegram ++ token ++ "/sendAnimation" ++ "?chat_id=" ++ chId ++ "&animation=" ++ fileId 
+    where chId = show $ justIdO resp
+          fileId = T.unpack $ fileIdO resp
+
+sendEcho :: Sender a => Counter -> Token -> a -> IO ()
+sendEcho counter token resp = do
+  let req = makeSendReq token resp
+  replicateM_ counter $ N.httpNoBody $ N.parseRequest_ req
+  return ()
 
 
 
