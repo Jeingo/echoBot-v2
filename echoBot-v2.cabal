@@ -26,6 +26,7 @@ source-repository head
 library
   exposed-modules:
       App.Config
+      App.MainLoop
       App.Request
   other-modules:
       Paths_echoBot_v2

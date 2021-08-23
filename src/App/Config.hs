@@ -21,7 +21,7 @@ readConfig = C.load [C.Required "src/config/confBot.cfg"]
 
 readToken :: IO Token
 readToken = do
-  con <- readFile "src/cfg/token"
+  con <- readFile "src/config/token"
   return $ Token $ filter (/= '\n') con
 
 makeMyConfig :: CT.Config -> IO ConfData

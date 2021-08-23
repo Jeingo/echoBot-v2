@@ -23,13 +23,12 @@ data ReqButton = ReqButton  { updateIdB :: Int
                             , countB :: T.Text
                             } deriving (Show, Eq)
 
-data ReqOther = ReqOther  { updateIdO :: Int
-                          , justIdO :: Int
-                          , fileIdO :: T.Text
-                          } deriving (Show, Eq)
+data ReqStiker = ReqStiker  { updateIdS :: Int
+                            , justIdS :: Int
+                            , fileIdS :: T.Text
+                            } deriving (Show, Eq)
 
 newtype ReqBool = ReqBool () deriving (Show, Eq) 
-
 
 --Get Updates
 
@@ -54,8 +53,8 @@ instance Response ReqText where
 instance Response ReqButton where
   makeResponse resp = decodeStrict resp :: Maybe ReqButton
 
-instance Response ReqOther where
-  makeResponse resp = decodeStrict resp :: Maybe ReqOther
+instance Response ReqStiker where
+  makeResponse resp = decodeStrict resp :: Maybe ReqStiker
 
 instance Response ReqBool where
   makeResponse resp = decodeStrict resp :: Maybe ReqBool
@@ -73,7 +72,7 @@ instance FromJSON ReqText where
 
   parseJSON _ = mzero
 
-instance FromJSON ReqOther where
+instance FromJSON ReqStiker where
   parseJSON (Object req) = do 
     result <- req .: "result"
     let arr = V.head result
@@ -83,7 +82,7 @@ instance FromJSON ReqOther where
     from <- mes .: "from"
     jId <- from .: "id"
     fId <- stick .: "file_id"
-    return $ ReqOther upId jId fId 
+    return $ ReqStiker upId jId fId 
 
   parseJSON _ = mzero
 
@@ -151,10 +150,10 @@ instance Sender ReqText where
     where chId = show $ justIdT resp
           textResp = T.unpack $ messageT resp
 
-instance Sender ReqOther where
+instance Sender ReqStiker where
   makeSendReq (Token token) resp = urlApiTelegram ++ token ++ "/sendAnimation" ++ "?chat_id=" ++ chId ++ "&animation=" ++ fileId 
-    where chId = show $ justIdO resp
-          fileId = T.unpack $ fileIdO resp
+    where chId = show $ justIdS resp
+          fileId = T.unpack $ fileIdS resp
 
 sendEcho :: Sender a => Counter -> Token -> a -> IO ()
 sendEcho counter token resp = do
