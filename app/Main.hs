@@ -10,6 +10,7 @@ main :: IO ()
 main = do
   myConfigTmp <- readConfig
   myConfig <- makeMyConfig myConfigTmp
-  mainLoop myConfig Map.empty
+  let emptyListUsers = Map.empty
+  mainLoop myConfig emptyListUsers 
   return ()
 

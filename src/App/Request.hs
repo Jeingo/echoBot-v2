@@ -37,7 +37,7 @@ urlApiTelegram = "https://api.telegram.org/bot"
 
 getUpdates :: Token -> IO B.ByteString 
 getUpdates (Token token) = do
-  let req = urlApiTelegram ++ token ++ "/getUpdates" ++ "?timeout=30"
+  let req = urlApiTelegram ++ token ++ "/getUpdates" ++ "?timeout=29"
   resp <- N.httpBS $ N.parseRequest_ req 
   return $ N.getResponseBody resp 
 
@@ -130,12 +130,13 @@ sendHelpText helpT chatId (Token token) = do
   N.httpNoBody $ N.parseRequest_ $ req
   return ()
 
-sendKeyboard :: B.ByteString -> ChatId -> Token -> IO () 
-sendKeyboard keyB chId (Token token) = do
+sendKeyboard :: B.ByteString -> ChatId -> Token -> String -> IO () 
+sendKeyboard keyB chId (Token token) repeatText = do
+  let repText = B8.fromString repeatText
   let chatId = B8.fromString chId 
   request' <- N.parseRequest $ "POST " ++ urlApiTelegram ++ token ++ "/sendMessage"
   let req = N.setRequestQueryString [("chat_id", Just $ chatId),
-                                     ("text", Just "Choose how many repeating:"), 
+                                     ("text", Just $ repText), 
                                      ("reply_markup", Just keyB)] $ request'
   N.httpNoBody req
   return () 

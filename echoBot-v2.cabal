@@ -9,7 +9,7 @@ version:        0.1.0.0
 description:    Please see the README on GitHub at <https://github.com/githubuser/echoBot-v2#readme>
 homepage:       https://github.com/githubuser/echoBot-v2#readme
 bug-reports:    https://github.com/githubuser/echoBot-v2/issues
-author:         Author name here
+author:         Jeingo
 maintainer:     example@example.com
 copyright:      2021 Author name here
 license:        BSD3
@@ -38,6 +38,7 @@ library
     , bytestring
     , configurator
     , containers
+    , hspec
     , http-conduit
     , text
     , utf8-string
@@ -58,6 +59,7 @@ executable echoBot-v2-exe
     , configurator
     , containers
     , echoBot-v2
+    , hspec
     , http-conduit
     , text
     , utf8-string
@@ -79,6 +81,7 @@ test-suite echoBot-v2-test
     , configurator
     , containers
     , echoBot-v2
+    , hspec
     , http-conduit
     , text
     , utf8-string

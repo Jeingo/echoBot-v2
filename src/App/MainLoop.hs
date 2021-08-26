@@ -15,6 +15,7 @@ type CountUser = Map.Map Int Int
 
 mainLoop :: ConfData -> CountUser -> IO ()
 mainLoop conf allUsers = do 
+  print "next"
   let token = getToken conf
   responseTmp <- getUpdates token
   let typeResp = switcher responseTmp  
@@ -28,7 +29,7 @@ mainLoop conf allUsers = do
       let users = addNewUser allUsers chatIdTmp (startRepeat conf)
       case (messageT response) of
         "/help" -> sendHelpText (helpText conf) (show chatIdTmp) token 
-        "/repeat" -> sendKeyboard (B8.fromString $ button conf) (show chatIdTmp) token
+        "/repeat" -> sendKeyboard (B8.fromString $ button conf) (show chatIdTmp) token (repeatText conf)
         _ -> sendEcho (fromJust $ Map.lookup chatIdTmp users) token response
       nextStep (show $ (updateIdT response) + 1) token
       mainLoop conf users 

@@ -2,7 +2,7 @@ name:                echoBot-v2
 version:             0.1.0.0
 github:              "githubuser/echoBot-v2"
 license:             BSD3
-author:              "Author name here"
+author:              "Jeingo"
 maintainer:          "example@example.com"
 copyright:           "2021 Author name here"
 
@@ -29,6 +29,7 @@ dependencies:
 - aeson
 - vector
 - containers 
+- hspec
 
 library:
   source-dirs: src
