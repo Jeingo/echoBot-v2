@@ -15,7 +15,6 @@ type CountUser = Map.Map Int Int
 
 mainLoop :: ConfData -> CountUser -> IO ()
 mainLoop conf allUsers = do 
-  print "next"
   let token = getToken conf
   responseTmp <- getUpdates token
   let typeResp = switcher responseTmp  
