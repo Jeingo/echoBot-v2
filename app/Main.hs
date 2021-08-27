@@ -1,6 +1,6 @@
 module Main where
 
-import qualified Data.Map as Map
+import qualified Data.Map as Map (empty)
 
 import App.Config
 import App.Request

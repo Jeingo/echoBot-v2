@@ -23,7 +23,7 @@ mainLoop conf allUsers = do
     "empty" -> mainLoop conf allUsers
     
     "text" -> do
-      let response = fromJust (makeResponse responseTmp :: Maybe ReqText)
+      let response = fromJust (makeResponse responseTmp)
       let chatIdTmp = justIdT response
       let users = addNewUser allUsers chatIdTmp (startRepeat conf)
       case (messageT response) of
@@ -34,7 +34,7 @@ mainLoop conf allUsers = do
       mainLoop conf users 
 
     "button" -> do
-      let response = fromJust (makeResponse responseTmp :: Maybe ReqButton)
+      let response = fromJust (makeResponse responseTmp)
       let chatIdTmp = justIdB response
       let newCount = read $ T.unpack (countB response) :: Int
       let users = Map.insert chatIdTmp newCount allUsers
@@ -42,7 +42,7 @@ mainLoop conf allUsers = do
       mainLoop conf users
 
     "other" -> do
-      let response = fromJust (makeResponse responseTmp :: Maybe ReqStiker)
+      let response = fromJust (makeResponse responseTmp)
       let chatIdTmp = justIdS response
       let users = addNewUser allUsers chatIdTmp (startRepeat conf)
       sendEcho (fromJust $ Map.lookup chatIdTmp users) token response
