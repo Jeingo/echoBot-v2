@@ -51,6 +51,23 @@ mainLoop conf allUsers = do
 
   return ()
 
+-- test main func
+chooseRoad :: String -> IO ()
+chooseRoad switch 
+  | switch == "empty" = emptyFunc
+  | switch == "text" = textFunc
+  | switch == "button" = buttonFunc
+  | switch == "other" = otherFunc
+  | otherwise = otherwiseFunc
+
+emptyFunc = undefined
+textFunc = undefined
+buttonFunc = undefined
+otherFunc = undefined
+otherwiseFunc = undefined
+
+-- end testing
+
 switcher :: B.ByteString -> String 
 switcher resp 
   | (makeResponse resp :: Maybe ReqBool) /= Nothing = "empty"
